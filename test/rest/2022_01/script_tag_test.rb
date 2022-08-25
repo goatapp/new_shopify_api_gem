@@ -11,22 +11,22 @@ $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), "..", "lib"))
 require "minitest/autorun"
 require "webmock/minitest"
 
-require "shopify_api"
+require "new_shopify_api"
 require_relative "../../test_helper"
 
 class ScriptTag202201Test < Test::Unit::TestCase
   def setup
     super
 
-    test_session = ShopifyAPI::Auth::Session.new(id: "id", shop: "test-shop.myshopify.io", access_token: "this_is_a_test_token")
-    ShopifyAPI::Context.activate_session(test_session)
+    test_session = NewShopifyAPI::Auth::Session.new(id: "id", shop: "test-shop.myshopify.io", access_token: "this_is_a_test_token")
+    NewShopifyAPI::Context.activate_session(test_session)
     modify_context(api_version: "2022-01")
   end
 
   def teardown
     super
 
-    ShopifyAPI::Context.deactivate_session
+    NewShopifyAPI::Context.deactivate_session
   end
 
   sig do
@@ -40,7 +40,7 @@ class ScriptTag202201Test < Test::Unit::TestCase
       )
       .to_return(status: 200, body: JSON.generate({"script_tags" => [{"id" => 421379493, "src" => "https://js-aplenty.com/bar.js", "event" => "onload", "created_at" => "2022-04-05T12:51:55-04:00", "updated_at" => "2022-04-05T12:51:55-04:00", "display_scope" => "all"}, {"id" => 596726825, "src" => "https://js-aplenty.com/foo.js", "event" => "onload", "created_at" => "2022-04-05T12:51:55-04:00", "updated_at" => "2022-04-05T12:51:55-04:00", "display_scope" => "all"}]}), headers: {})
 
-    ShopifyAPI::ScriptTag.all()
+    NewShopifyAPI::ScriptTag.all()
 
     assert_requested(:get, "https://test-shop.myshopify.io/admin/api/2022-01/script_tags.json")
   end
@@ -56,7 +56,7 @@ class ScriptTag202201Test < Test::Unit::TestCase
       )
       .to_return(status: 200, body: JSON.generate({"script_tags" => [{"id" => 596726825, "src" => "https://js-aplenty.com/foo.js", "event" => "onload", "created_at" => "2022-04-05T12:51:55-04:00", "updated_at" => "2022-04-05T12:51:55-04:00", "display_scope" => "all"}]}), headers: {})
 
-    ShopifyAPI::ScriptTag.all(
+    NewShopifyAPI::ScriptTag.all(
       src: "https://js-aplenty.com/foo.js",
     )
 
@@ -74,7 +74,7 @@ class ScriptTag202201Test < Test::Unit::TestCase
       )
       .to_return(status: 200, body: JSON.generate({"script_tags" => [{"id" => 596726825, "src" => "https://js-aplenty.com/foo.js", "event" => "onload", "created_at" => "2022-04-05T12:51:55-04:00", "updated_at" => "2022-04-05T12:51:55-04:00", "display_scope" => "all"}]}), headers: {})
 
-    ShopifyAPI::ScriptTag.all(
+    NewShopifyAPI::ScriptTag.all(
       since_id: "421379493",
     )
 
@@ -92,7 +92,7 @@ class ScriptTag202201Test < Test::Unit::TestCase
       )
       .to_return(status: 200, body: JSON.generate({"script_tag" => {"id" => 870402687, "src" => "https://djavaskripped.org/fancy.js", "event" => "onload", "created_at" => "2022-04-05T12:53:25-04:00", "updated_at" => "2022-04-05T12:53:25-04:00", "display_scope" => "all", "cache" => false}}), headers: {})
 
-    script_tag = ShopifyAPI::ScriptTag.new
+    script_tag = NewShopifyAPI::ScriptTag.new
     script_tag.event = "onload"
     script_tag.src = "https://djavaskripped.org/fancy.js"
     script_tag.save()
@@ -111,7 +111,7 @@ class ScriptTag202201Test < Test::Unit::TestCase
       )
       .to_return(status: 200, body: JSON.generate({"count" => 2}), headers: {})
 
-    ShopifyAPI::ScriptTag.count()
+    NewShopifyAPI::ScriptTag.count()
 
     assert_requested(:get, "https://test-shop.myshopify.io/admin/api/2022-01/script_tags/count.json")
   end
@@ -127,7 +127,7 @@ class ScriptTag202201Test < Test::Unit::TestCase
       )
       .to_return(status: 200, body: JSON.generate({"script_tag" => {"id" => 596726825, "src" => "https://js-aplenty.com/foo.js", "event" => "onload", "created_at" => "2022-04-05T12:51:55-04:00", "updated_at" => "2022-04-05T12:51:55-04:00", "display_scope" => "all", "cache" => false}}), headers: {})
 
-    ShopifyAPI::ScriptTag.find(
+    NewShopifyAPI::ScriptTag.find(
       id: 596726825,
     )
 
@@ -145,7 +145,7 @@ class ScriptTag202201Test < Test::Unit::TestCase
       )
       .to_return(status: 200, body: JSON.generate({"script_tag" => {"src" => "https://somewhere-else.com/another.js", "cache" => false, "id" => 596726825, "event" => "onload", "created_at" => "2022-04-05T12:51:55-04:00", "updated_at" => "2022-04-05T12:53:27-04:00", "display_scope" => "all"}}), headers: {})
 
-    script_tag = ShopifyAPI::ScriptTag.new
+    script_tag = NewShopifyAPI::ScriptTag.new
     script_tag.id = 596726825
     script_tag.src = "https://somewhere-else.com/another.js"
     script_tag.save()
@@ -164,7 +164,7 @@ class ScriptTag202201Test < Test::Unit::TestCase
       )
       .to_return(status: 200, body: JSON.generate({}), headers: {})
 
-    ShopifyAPI::ScriptTag.delete(
+    NewShopifyAPI::ScriptTag.delete(
       id: 596726825,
     )
 

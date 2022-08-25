@@ -11,7 +11,7 @@ module ShopifyAPITest
 
       def setup
         ::FakeFS.activate!
-        @storage = ShopifyAPI::Auth::FileSessionStorage.new
+        @storage = NewShopifyAPI::Auth::FileSessionStorage.new
       end
 
       def teardown
