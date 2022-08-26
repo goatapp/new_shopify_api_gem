@@ -100,7 +100,7 @@ module NewShopifyAPI
         T.must(@rest_resource_loader).enable_reloading
         T.must(@rest_resource_loader).ignore("#{__dir__}/rest/resources")
         T.must(@rest_resource_loader).setup
-        T.must(@rest_resource_loader).push_dir(path, namespace: ShopifyAPI)
+        T.must(@rest_resource_loader).push_dir(path, namespace: NewShopifyAPI)
         T.must(@rest_resource_loader).reload
       end
 
